@@ -1,19 +1,37 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import NavigationBar from './components/NavigationBar';
-import SearchList from './components/SearchList';
+import SearchBar from './components/SearchBar';
 import {useState} from 'react';
+import ResultList from './components/ResultList';
+import Container from 'react-bootstrap/esm/Container';
+import Col from 'react-bootstrap/Col';
+import MusicPlayer from './components/MusicPlayer';
 
 
 function App() {
   const [searchQuery , setSearchQuery] = useState({source:'Youtube' , query: ''})
+  const updateSearchQuery = (sq) =>
+    {
+      setSearchQuery(sq)
+    }
   const chooseSource = (s) => setSearchQuery(oldSearchQuery => { return {...oldSearchQuery, source:s} })
   
   return (
     <>
-    <NavigationBar></NavigationBar>
-    <SearchList searchQuery={searchQuery} methods={{chooseSource:chooseSource}}></SearchList>
-    <h1>Ciaooo</h1>
+    
+    <Container>
+      <Col   md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}  >
+        <NavigationBar></NavigationBar>
+
+        <MusicPlayer></MusicPlayer>
+
+        <SearchBar searchQuery={searchQuery} updateSearchQuery={updateSearchQuery}></SearchBar>
+        <h1>{searchQuery.query}</h1>
+
+        <ResultList></ResultList>
+      </Col>
+    </Container>
     </>
   )
 }

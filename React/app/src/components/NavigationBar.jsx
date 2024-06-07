@@ -28,6 +28,9 @@ function NavigationBar() {
               <NavDropdown.Divider />
               <NavDropdown.Item href="#action5">Create New Playlist</NavDropdown.Item>
             </NavDropdown>
+
+            <Nav.Link href="#Setting" disabled>Settings</Nav.Link>
+
             
           </Nav> 
           <Nav>
