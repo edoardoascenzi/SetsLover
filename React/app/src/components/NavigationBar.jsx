@@ -8,6 +8,7 @@ import logo from "/icons8-music-record-cute-color-32.png"
 function NavigationBar() {
 
   return (
+    <Container>
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
         <Navbar.Brand href="#">  
@@ -40,6 +41,7 @@ function NavigationBar() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
+    </Container>
   );
 }
 

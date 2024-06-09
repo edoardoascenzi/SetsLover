@@ -3,6 +3,10 @@ import Button from 'react-bootstrap/esm/Button';
 import React from 'react'
 import { cardio } from 'ldrs'
 import {useState} from 'react';
+import Container from 'react-bootstrap/esm/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
+
 
 
 
@@ -36,25 +40,33 @@ function SearchBar(prpos) {
     
 
     {/* <CardioLoarder></CardioLoarder> */}
-
+    <Container className='mb-2 mt-2'>
     <Form onSubmit={handleSubmit} >
-        <Form.Group className='mb-4'>
+    <Row className='mb-3' >
+        <Col xs={8}>
+        <Form.Group >
+        {/* <Form.Label>{source} Search</Form.Label> */}
+        <Form.Control className={errors.query ? 'wrong-field' : ''} type="text" placeholder="Search" required={true} onChange={e => setQuery(e.target.value)} value={query}/>
+        </Form.Group>
+        </Col>
+        <Col  > 
+        <Form.Group >
             <Form.Select value={source}
             onChange={e => setSource(e.target.value)}>
                 <option value="YouTube">YouTube</option>
                 <option value="SoundCloud">SoundCloud</option>
             </Form.Select>
         </Form.Group>
-
-        <Form.Group className='mb-4'>
-        <Form.Label>{source} Search</Form.Label>
-        <Form.Control className={errors.query ? 'wrong-field' : ''} type="text" placeholder="Search" required={true} onChange={e => setQuery(e.target.value)} value={query}/>
+        </Col> </Row>  
+        <Form.Group >
+        <div className='text-center'>
+        <Button type="submit">Search</Button> {" "}
+        <Button variant="warning" onClick={prpos.clearSongs}>Clear Result</Button>
+        </div>
         </Form.Group>
-
-        <Form.Group className='mb-4'>
-        <Button type="submit">Search</Button>
-        </Form.Group>
+      
     </Form>
+    </Container>
 
     </>
     

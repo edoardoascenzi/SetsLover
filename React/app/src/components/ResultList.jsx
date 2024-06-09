@@ -5,19 +5,50 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Pagination from 'react-bootstrap/Pagination';
+import Container from 'react-bootstrap/esm/Container';
+
 
 function ResultList (props) {
 
+
+
     return ( <>
+    <Container>
     <ListGroup>
-        <ListGroup.Item><VideoCard></VideoCard></ListGroup.Item>
-        <ListGroup.Item><VideoCard></VideoCard></ListGroup.Item>
+        {props.songs.map((song) =><ListGroup.Item key={song.id}><ResultCard song ={song} playSong={props.playSong}></ResultCard></ListGroup.Item>)}
     </ListGroup>
-    <Pages></Pages>
-    
+    {/* <Pages></Pages> */}
+    </Container>
 
 
     </>);
+
+}
+
+
+function ResultCard (props){
+
+    return ( <>
+        <Card className='mt-2 mb-2'>
+        <Row className='mt-2 mb-2 mx-auto'>
+            <Col >
+                <Card.Img variant="top" src={props.song.image} />
+            </Col>
+            <Col>
+                <Card.Body >
+                    <Card.Title>{props.song.title}</Card.Title>
+                    <Card.Text>{props.song.description}</Card.Text>
+                </Card.Body>
+                <Stack direction='horizontal' gap={2} >
+                <Button variant="success" onClick={() => props.playSong(props.song)}><i className="bi bi-play-fill"></i></Button>
+                <Button variant="warning"><i className="bi bi-clock"></i></Button> 
+                <Button variant="info"><i className="bi bi-music-note-list"></i></Button>
+                </Stack>
+            </Col>       
+          </Row>
+        </Card>
+    
+        </>);
 
 }
 
@@ -41,34 +72,6 @@ function Pages () {
           <Pagination.Last />
         </Pagination>
       );
-}
-
-function VideoCard (props){
-
-    return ( <>
-        <Card >
-        <Row>
-            <Col>
-                <Card.Img  rounded fluid variant="top" src="/icons8-music-record-cute-color-96.png" />
-            </Col>
-            <Col>
-                <Card.Body>
-                    <Card.Title>Video Title</Card.Title>
-                    <Card.Text>Video Channel</Card.Text>
-                    
-                </Card.Body>
-                <Stack gap={2}>
-                <Col><Button variant="success">Play</Button></Col>
-                <Col><Button variant="warning">Add to queue</Button> </Col>
-                <Col><Button variant="info">Add to Playlist</Button></Col>
-                </Stack>
-                
-            </Col>
-          </Row>
-        </Card>
-    
-        </>);
-
 }
 
 
