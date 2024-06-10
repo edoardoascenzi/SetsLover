@@ -7,6 +7,9 @@ import Stack from 'react-bootstrap/Stack';
 import Pagination from 'react-bootstrap/Pagination';
 import Container from 'react-bootstrap/esm/Container';
 import {useState} from 'react';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Tooltip from 'react-bootstrap/Tooltip';
+
 
 
 
@@ -46,6 +49,9 @@ function ResultList (props) {
 
 function ResultCard (props){
 
+    const overlayDelayShow = 250
+    const overlayDelayHide = 400
+
     return ( <>
         <Card className='mt-2 mb-2'>
         <Row className='mt-2 mb-2 mx-auto'>
@@ -59,15 +65,21 @@ function ResultCard (props){
                 </Card.Body>
                 <Stack direction='horizontal' gap={2} >
                 <Button variant="success" onClick={() => props.playSong(props.song)}><i className="bi bi-play-fill"></i></Button>
-                <Button variant="warning"><i className="bi bi-clock"></i></Button> 
-                <Button variant="info"><i className="bi bi-music-note-list"></i></Button>
+
+                <OverlayTrigger placement="bottom" delay={{ show: overlayDelayShow, hide: overlayDelayHide }} overlay={<Tooltip>Add to Queue</Tooltip>}>
+                    <Button variant="warning"><i className="bi bi-clock"></i></Button> 
+                </OverlayTrigger> 
+
+                <OverlayTrigger placement="bottom" delay={{ show: overlayDelayShow, hide: overlayDelayHide }} overlay={<Tooltip>Add to Playlist</Tooltip>}>
+                    <Button variant="info"><i className="bi bi-music-note-list"></i></Button>
+                </OverlayTrigger> 
+                
                 </Stack>
             </Col>       
           </Row>
         </Card>
     
         </>);
-
 }
 
 function Pages (props) {

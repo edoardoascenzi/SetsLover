@@ -7,3 +7,4 @@ https://uiball.com/ldrs/
 - Settings and Playlist enabled only for logged in profile
 - Settings:
   - Autoplay On/Off
+- Offcanvas for playlist and queue
