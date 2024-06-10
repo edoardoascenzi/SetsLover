@@ -23,7 +23,7 @@ function MusicPlayer(props) {
   <Container>
     <Card className="text-center">
     <CloseButton aria-label="Hide" onClick={props.clearPlayingSong}/>
-      <Card.Img variant="top" src={props.playingSong.image} />
+      <Card.Img  src={props.playingSong.image} />
       {/* <Card.ImgOverlay> */}
       <Card.Body>
         <Card.Title>{props.playingSong.title}</Card.Title>

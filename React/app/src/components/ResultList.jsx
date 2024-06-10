@@ -6,18 +6,36 @@ import Col from 'react-bootstrap/Col';
 import Stack from 'react-bootstrap/Stack';
 import Pagination from 'react-bootstrap/Pagination';
 import Container from 'react-bootstrap/esm/Container';
+import {useState} from 'react';
+
 
 
 function ResultList (props) {
 
+    const itemPerPage = 2
+    const pages = Math.floor(props.songs.length/itemPerPage)
 
+    // const [pages, setPages] = useState(Math.floor(props.songs.length/itemPerPage))
+    // setPages(Math.floor(props.songs.length/itemPerPage))
+
+    const [selectedPage, setSelectedPage] = useState(0)
+    const changePage = (page) => {
+        console.log(page)
+        setSelectedPage(page)
+        setSongsList(props.songs.slice(page*itemPerPage, Math.min( ((page+1)*itemPerPage) , (props.songs.length) ) ) )
+    }
+
+    const [songsList, setSongsList] = useState(props.songs.slice(0, Math.min( itemPerPage , (props.songs.length) ) ))
+
+ 
+    
 
     return ( <>
     <Container>
     <ListGroup>
-        {props.songs.map((song) =><ListGroup.Item key={song.id}><ResultCard song ={song} playSong={props.playSong}></ResultCard></ListGroup.Item>)}
+        {songsList.map((song) => <ListGroup.Item key={song.id}><ResultCard song ={song} playSong={props.playSong}></ResultCard></ListGroup.Item>)}
     </ListGroup>
-    {/* <Pages></Pages> */}
+    {pages > 0 ? <Pages pages={pages} selectedPage = {selectedPage} changePage={changePage}></Pages> : <></>}
     </Container>
 
 
@@ -32,7 +50,7 @@ function ResultCard (props){
         <Card className='mt-2 mb-2'>
         <Row className='mt-2 mb-2 mx-auto'>
             <Col >
-                <Card.Img variant="top" src={props.song.image} />
+                <Card.Img src={props.song.image} />
             </Col>
             <Col>
                 <Card.Body >
@@ -52,25 +70,60 @@ function ResultCard (props){
 
 }
 
-function Pages () {
+function Pages (props) {
+
+
+    const items = []
+    // if(props.pages < 8){
+        // items.push(props.selectedPage > 0 ? <Pagination.Prev onClick={e => props.changePage(props.selectedPage-1)}/> : <Pagination.Prev disabled />)
+        
+        for(let i=0; i<props.pages; i++){
+            items.push(i === props.selectedPage ? 
+            <Pagination.Item key={i} active>{i+1}</Pagination.Item> : 
+            <Pagination.Item key={i} onClick={e => props.changePage(i)}>{i+1}</Pagination.Item>)
+        }
+
+        // items.push(props.selectedPage < props.pages-1 ? <Pagination.Next onClick={e => props.changePage(props.selectedPage+1)}/> : <Pagination.Next disabled />)
+    // }
+
+    // else{
+    //     items.push(props.selectedPage > 0 ? <Pagination.First onClick={e => props.changePage(0)}/> : <Pagination.First disabled />)
+    //     items.push(props.selectedPage > 0 ? <Pagination.Prev onClick={e => props.changePage(props.selectedPage-1)}/> : <Pagination.Prev disabled />)
+
+    //     for(let i=0; i<3; i++){
+    //         items.push(i === props.selectedPage ? 
+    //         <Pagination.Item key={i} active>{i+1}</Pagination.Item> : 
+    //         <Pagination.Item key={i} onClick={e => props.changePage(i)}>{i+1}</Pagination.Item>)
+    //     }
+
+    //     items.push(<Pagination.Ellipsis />)
+
+    //     for(let i=props.pages-3; i<props.pages; i++){
+    //         items.push(i === props.selectedPage ? 
+    //         <Pagination.Item key={i} active>{i+1}</Pagination.Item> : 
+    //         <Pagination.Item key={i} onClick={e => props.changePage(i)}>{i+1}</Pagination.Item>)
+    //     }
+
+    //     items.push(props.selectedPage < props.pages-1 ? <Pagination.Next onClick={e => props.changePage(props.selectedPage+1)}/> : <Pagination.Next disabled />)
+    //     items.push(props.selectedPage < props.pages-1 ? <Pagination.Last onClick={e => props.changePage(props.pages-1)}/> : <Pagination.Last disabled />)
+
+    // }
+
     return (
-        <Pagination>
-          <Pagination.First />
-          <Pagination.Prev />
-          <Pagination.Item>{1}</Pagination.Item>
-          <Pagination.Ellipsis />
-    
-          <Pagination.Item>{10}</Pagination.Item>
-          <Pagination.Item>{11}</Pagination.Item>
-          <Pagination.Item active>{12}</Pagination.Item>
-          <Pagination.Item>{13}</Pagination.Item>
-          <Pagination.Item disabled>{14}</Pagination.Item>
-    
-          <Pagination.Ellipsis />
-          <Pagination.Item>{20}</Pagination.Item>
-          <Pagination.Next />
-          <Pagination.Last />
+        <>
+        <Container className='d-flex justify-content-center'>
+        <Pagination className='mt-2'>
+          {/* <Pagination.First /> */}
+          {props.selectedPage > 0 ? <Pagination.Prev onClick={e => props.changePage(props.selectedPage-1)}/> : <Pagination.Prev disabled />}
+          {items}
+          {/* <Pagination.Ellipsis /> */}
+
+
+          {props.selectedPage < props.pages-1 ? <Pagination.Next onClick={e => props.changePage(props.selectedPage+1)}/> : <Pagination.Next disabled />}
+          {/* <Pagination.Last /> */}
         </Pagination>
+        </Container>
+        </>
       );
 }
 
