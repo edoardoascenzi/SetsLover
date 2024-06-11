@@ -18,7 +18,10 @@ import Tooltip from 'react-bootstrap/Tooltip';
 function MusicPlayer(props) {
 
   
-
+  const playNextSongFromQueue = () => {
+    props.playSong(props.queue[0])
+    props.removeElementFromQueue(0)
+  }
 
 
   return (
@@ -31,7 +34,7 @@ function MusicPlayer(props) {
         <Card.Title>{props.playingSong.title}</Card.Title>
         <Card.Text>{props.playingSong.description}</Card.Text>
 
-        <Controls song={props.playingSong}></Controls>
+        <Controls song={props.playingSong} playNextSongFromQueue={playNextSongFromQueue} queue={props.queue}></Controls>
 
       </Card.Body>
       {/* </Card.ImgOverlay> */}
@@ -80,6 +83,16 @@ function Controls(props) {
     updateProgress()
   }
 
+  const nextSong = () => {
+    if(props.queue.length > 0){
+      props.playNextSongFromQueue()
+      audioRef.current.play();
+      setIsPlaying(true)
+      audioRef.current.currentTime=0
+
+    }
+  }
+
   const repeatSingleSong = () => {
     if(repeat === "single") setRepeat("")
     else  setRepeat("single")
@@ -87,9 +100,20 @@ function Controls(props) {
 
   const handleEnded = () => {
     if (repeat === ""){
-      audioRef.current.currentTime=0
-      audioRef.current.pause();
-      setIsPlaying(false)
+      if(props.queue.length > 0){
+        props.playNextSongFromQueue()
+        audioRef.current.play();
+        setIsPlaying(true)
+        audioRef.current.currentTime=0
+
+      }
+      else
+      {
+        audioRef.current.currentTime=0
+        audioRef.current.pause();
+        setIsPlaying(false)
+      }
+      
     }
     else if(repeat === "single"){
       audioRef.current.currentTime=0
@@ -181,7 +205,7 @@ function Controls(props) {
     </OverlayTrigger> {" "}
   
     <OverlayTrigger placement="bottom" delay={{ show: overlayDelayShow, hide: overlayDelayHide }} overlay={<Tooltip>Next</Tooltip>}>
-    <Button variant='secondary' disabled ><i className="bi bi-skip-end-fill"></i></Button>
+    {props.queue.length > 0 ? <Button variant='secondary' onClick={nextSong} ><i className="bi bi-skip-end-fill"></i></Button> : <Button variant='secondary' disabled ><i className="bi bi-skip-end-fill"></i></Button> }
     </OverlayTrigger> {" "}
 
     

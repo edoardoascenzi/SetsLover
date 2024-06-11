@@ -23,7 +23,6 @@ function ResultList (props) {
 
     const [selectedPage, setSelectedPage] = useState(0)
     const changePage = (page) => {
-        console.log(page)
         setSelectedPage(page)
         setSongsList(props.songs.slice(page*itemPerPage, Math.min( ((page+1)*itemPerPage) , (props.songs.length) ) ) )
     }
@@ -31,12 +30,11 @@ function ResultList (props) {
     const [songsList, setSongsList] = useState(props.songs.slice(0, Math.min( itemPerPage , (props.songs.length) ) ))
 
  
-    
 
     return ( <>
     <Container>
     <ListGroup>
-        {songsList.map((song) => <ListGroup.Item key={song.id}><ResultCard song ={song} playSong={props.playSong}></ResultCard></ListGroup.Item>)}
+        {songsList.map((song) => <ListGroup.Item key={song.id}><ResultCard song={song} playSong={props.playSong} addToQueue={props.addToQueue}></ResultCard></ListGroup.Item>)}
     </ListGroup>
     {pages > 0 ? <Pages pages={pages} selectedPage = {selectedPage} changePage={changePage}></Pages> : <></>}
     </Container>
@@ -67,7 +65,7 @@ function ResultCard (props){
                 <Button variant="success" onClick={() => props.playSong(props.song)}><i className="bi bi-play-fill"></i></Button>
 
                 <OverlayTrigger placement="bottom" delay={{ show: overlayDelayShow, hide: overlayDelayHide }} overlay={<Tooltip>Add to Queue</Tooltip>}>
-                    <Button variant="warning"><i className="bi bi-clock"></i></Button> 
+                    <Button variant="warning" onClick={() => props.addToQueue(props.song)}><i className="bi bi-clock"></i></Button> 
                 </OverlayTrigger> 
 
                 <OverlayTrigger placement="bottom" delay={{ show: overlayDelayShow, hide: overlayDelayHide }} overlay={<Tooltip>Add to Playlist</Tooltip>}>

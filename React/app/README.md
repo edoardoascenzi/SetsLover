@@ -8,3 +8,5 @@ https://uiball.com/ldrs/
 - Settings:
   - Autoplay On/Off
 - Offcanvas for playlist and queue
+- History
+- Footer
