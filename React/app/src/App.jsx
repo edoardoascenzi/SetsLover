@@ -9,69 +9,57 @@ import Col from 'react-bootstrap/Col';
 import MusicPlayer from './components/MusicPlayer';
 import {Song, FAKE_SONGS} from './components/modules.mjs'
 import Button from 'react-bootstrap/Button';
-
+import {Routes, Route} from 'react-router-dom';
+import {Login, Signup} from './components/Auth'
 
 function App() {
-  const [searchQuery , setSearchQuery] = useState({source:'Youtube' , query: ''})
-  const updateSearchQuery = (sq) => setSearchQuery(sq)
+  const [searchQuery, setSearchQuery] = useState({source:'Youtube' , query: ''});
+  const updateSearchQuery = (sq) => setSearchQuery(sq);
 
-  const [songs, setSongs] = useState(FAKE_SONGS)
-  const foundSongs = songs.length > 0 
-  const clearSongs = () => setSongs([])
+  const [songs, setSongs] = useState(FAKE_SONGS);
+  const foundSongs = songs.length > 0;
+  const clearSongs = () => setSongs([]);
 
-  
-  // state that contains the currently playing song
-  const [playingSong, setPlayingSong] = useState({})
-  const clearPlayingSong = () => setPlayingSong({})
-  const playSong = (song) => setPlayingSong(song)
-  const isPlaying = Object.keys(playingSong).length > 0 //ture if a song is playing
+  const [playingSong, setPlayingSong] = useState({});
+  const clearPlayingSong = () => setPlayingSong({});
+  const playSong = (song) => setPlayingSong(song);
+  const isPlaying = Object.keys(playingSong).length > 0; // true if a song is playing
 
   //####### queue and queue methods
-  const [queue, setQueue] = useState([])
+  const [queue, setQueue] = useState([]);
 
   const addToQueue = (song) => {
-    setQueue(oldQueue => [...oldQueue, song])
-  }
-  // //tested ok
-  // const shiftQueue = () => {
-  //   if(queue.length > 0){
-  //     setQueue(oldQueue => {
-  //       oldQueue.shift()
-  //       return [...oldQueue]
-  //     })
-  //   }
-  // }
-  //tested ok
+    setQueue(oldQueue => [...oldQueue, song]);
+  };
+  
   const clearQueue = () => {
-    setQueue([])
-  }
-  //tested ok
+    setQueue([]);
+  };
+
   const removeElementFromQueue = (index) => {
     setQueue(oldQueue => {
-      oldQueue.splice(index,1)
-      return [...oldQueue]
-  })
-  }
+      oldQueue.splice(index, 1);
+      return [...oldQueue];
+    });
+  };
 
-
-  
   return (
-    <>
-    
     <Container>
-      
+      <Col md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}>
+        <NavigationBar />
+        <Routes>
+          <Route path="*" element={<>
+            {isPlaying ? <MusicPlayer clearPlayingSong={clearPlayingSong} playingSong={playingSong} playSong={playSong} queue={queue} removeElementFromQueue={removeElementFromQueue} /> : null}
+            <SearchBar searchQuery={searchQuery} updateSearchQuery={updateSearchQuery} clearSongs={clearSongs} />
+            {foundSongs ? <ResultList songs={songs} playSong={playSong} addToQueue={addToQueue} /> : null}
+          </>} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
 
-      <Col   md={{ span: 10, offset: 1 }} lg={{ span: 8, offset: 2 }}  >
-        <NavigationBar></NavigationBar>
-        {isPlaying ? <MusicPlayer clearPlayingSong = {clearPlayingSong} playingSong={playingSong} playSong={playSong} queue={queue} removeElementFromQueue={removeElementFromQueue}></MusicPlayer> : <></>}
-        {/* <MusicPlayer></MusicPlayer> */}
-        <SearchBar searchQuery={searchQuery} updateSearchQuery={updateSearchQuery} clearSongs={clearSongs}></SearchBar>
-
-        {foundSongs ? <ResultList songs={songs} playSong={playSong} addToQueue={addToQueue} ></ResultList> : <></>}
+        </Routes>
       </Col>
     </Container>
-    </>
-  )
+  );
 }
 
-export default App
+export default App;

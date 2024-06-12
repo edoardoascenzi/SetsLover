@@ -155,7 +155,7 @@ function Controls(props) {
       // if the audio is playing calls the updateProgress every 250ms
       if (audioRef.current) updateProgress();
         }, 250);
-    return () => clearInterval(interval);
+    return () => clearInterval(interval); //cleanup
   }, []);
 
   const formatTime = (time) => {

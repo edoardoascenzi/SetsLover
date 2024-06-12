@@ -2,6 +2,8 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
+import { Link, useLocation } from "react-router-dom";
+
 
 import logo from "/icons8-music-record-cute-color-32.png"
 
@@ -11,11 +13,13 @@ function NavigationBar() {
     <Container>
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container fluid>
-        <Navbar.Brand href="#">  
+        <Navbar.Brand >  
+          <Link to = '/'>
           <img src={logo} alt="Logo" />
           {" "}
-          SetsLover
+          SetsLover</Link>
         </Navbar.Brand>
+        
         <Navbar.Toggle aria-controls="navbarScroll" />
         <Navbar.Collapse id="navbarScroll">
           <Nav
@@ -35,8 +39,9 @@ function NavigationBar() {
             
           </Nav> 
           <Nav>
-            <Nav.Link href="#Signin">Sign in</Nav.Link>
-            <Nav.Link href="#Signup">Sign up</Nav.Link>
+            <Nav.Link ><Link to ='/login'>Login</Link></Nav.Link>
+            <Nav.Link ><Link to ='/signup'>Signup</Link></Nav.Link>
+            {/* <Nav.Link href="/signup">Sign up</Nav.Link> */}
           </Nav>
         </Navbar.Collapse>
       </Container>
