@@ -7,14 +7,19 @@ import ResultList from './components/ResultList';
 import Container from 'react-bootstrap/esm/Container';
 import Col from 'react-bootstrap/Col';
 import MusicPlayer from './components/MusicPlayer';
-import {Song, FAKE_SONGS} from './components/modules.mjs'
+import {Song, FAKE_SONGS} from './modules.mjs'
 import Button from 'react-bootstrap/Button';
 import {Routes, Route} from 'react-router-dom';
 import {Login, Signup} from './components/Auth'
 
+import API from './API.mjs';
+
 function App() {
   const [searchQuery, setSearchQuery] = useState({source:'Youtube' , query: ''});
-  const updateSearchQuery = (sq) => setSearchQuery(sq);
+  const updateSearchQuery = (sq) => {
+    setSearchQuery(sq)
+    API.getHello().then(res => console.log(res))
+  };
 
   const [songs, setSongs] = useState(FAKE_SONGS);
   const foundSongs = songs.length > 0;
